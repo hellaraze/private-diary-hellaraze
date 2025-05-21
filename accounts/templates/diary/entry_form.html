@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}{{ form.instance.pk|yesno:"Edit Entry,New Entry" }}{% endblock %}
+{% block content %}
+<h2>{{ form.instance.pk|yesno:"Edit Entry,New Entry" }}</h2>
+<form method="post" enctype="multipart/form-data" class="card p-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="{% url 'entry_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

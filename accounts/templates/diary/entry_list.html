@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}My Entries{% endblock %}
+{% block content %}
+<h2 class="mb-4">My Entries</h2>
+<a class="btn btn-primary mb-3" href="{% url 'entry_create' %}">+ New Entry</a>
+{% if entries %}
+  {% for entry in entries %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">{{ entry.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+            {{ entry.created|date:"d M Y H:i" }} | {{ entry.category }}
+        </h6>
+        <p class="card-text">{{ entry.content|truncatewords:30 }}</p>
+        {% if entry.image %}
+          <img src="{{ entry.image.url }}" alt="Entry Image" class="img-fluid mb-2" style="max-width:200px;">
+        {% endif %}
+        {% if entry.video %}
+          <video controls style="max-width:200px;">
+            <source src="{{ entry.video.url }}">
+            Your browser does not support the video tag.
+          </video>
+        {% endif %}
+        <a href="{% url 'entry_detail' entry.pk %}" class="card-link">Read more</a>
+        <a href="{% url 'entry_edit' entry.pk %}" class="card-link text-warning">Edit</a>
+        <a href="{% url 'entry_delete' entry.pk %}" class="card-link text-danger">Delete</a>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-info">You don't have any entries yet.</div>
+{% endif %}
+{% endblock %}
